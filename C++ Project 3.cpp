@@ -1,20 +1,43 @@
-// C++ Project 3.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+
+int requestedSeats;
+
+int GetUserInput()
+{
+    std::cout << "Welcome to XTC Bus Company\n";
+    std::cout << "How many seats would you like to reserve?\n";
+
+    std::cin >> requestedSeats;
+
+    return requestedSeats;
+}
+
+int GetBusSeats()
+{
+    const int busSeats = rand() % 51;
+
+    return busSeats;
+}
+
+bool CheckSeats(int seats, int remainingSeats)
+{
+    if (seats > remainingSeats)
+    {
+        std::cout << "You can reserve those seats";
+        return true;
+    }
+    else
+    {
+        std::cout << "There are not enough for those seats";
+        return false;
+    }
+}
+
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    CheckSeats(GetUserInput(), GetBusSeats());
+
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
