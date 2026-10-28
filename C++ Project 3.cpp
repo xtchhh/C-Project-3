@@ -2,7 +2,7 @@
 
 int requestedSeats;
 
-int GetUserInput()
+int GetRequestedSeats()
 {
     std::cout << "Welcome to XTC Bus Company\n";
     std::cout << "How many seats would you like to reserve?\n";
@@ -12,16 +12,17 @@ int GetUserInput()
     return requestedSeats;
 }
 
-int GetBusSeats()
+int GetRemainingSeats()
 {
-    const int busSeats = rand() % 51;
+    srand(requestedSeats);
+    const int busSeats = 1 + rand() % 51;
 
     return busSeats;
 }
 
-bool CheckSeats(int seats, int remainingSeats)
+bool CheckSeatAmt(int requestedAmt, int remainingAmt)
 {
-    if (seats > remainingSeats)
+    if (requestedAmt < remainingAmt)
     {
         std::cout << "You can reserve those seats";
         return true;
@@ -33,11 +34,9 @@ bool CheckSeats(int seats, int remainingSeats)
     }
 }
 
-
-
 int main()
 {
-    CheckSeats(GetUserInput(), GetBusSeats());
+    CheckSeatAmt(GetRequestedSeats(), GetRemainingSeats());
 
     return 0;
 }
