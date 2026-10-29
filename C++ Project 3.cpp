@@ -1,42 +1,65 @@
 #include <iostream>
 
-int requestedSeats;
+short userInput;
+short question;
 
-int GetRequestedSeats()
+short getRequestedSeats()
 {
     std::cout << "Welcome to XTC Bus Company\n";
     std::cout << "How many seats would you like to reserve?\n";
 
-    std::cin >> requestedSeats;
+    std::cin >> userInput;
 
-    return requestedSeats;
+    while (userInput <= 0)
+    {
+        std::cout << "Please prove a valid amount, how many seats would you like to reserve?\n";
+        std::cin >> userInput;
+    }
+
+    return userInput;
 }
 
-int GetRemainingSeats()
+short getRemainingSeats()
 {
-    srand(requestedSeats);
-    const int busSeats = 1 + rand() % 51;
+    srand(time(NULL));
+
+    const short busSeats = 1 + rand() % 51;
 
     return busSeats;
 }
 
-bool CheckSeatAmt(int requestedAmt, int remainingAmt)
+bool canReserveSeats(short amount_1, short amount_2)
 {
-    if (requestedAmt < remainingAmt)
+    if (amount_1 < amount_2)
     {
-        std::cout << "You can reserve those seats";
         return true;
     }
     else
     {
-        std::cout << "There are not enough for those seats";
         return false;
+    }
+}
+
+void displayPrompt()
+{
+    auto requestedSeats = getRequestedSeats();
+    auto remainingSeats = getRemainingSeats();
+
+    if (canReserveSeats(requestedSeats, remainingSeats))
+    {
+        std::cout << "There are enough for " << requestedSeats << " seats with " << remainingSeats << " free out of 50 seats\n";
+        return;
+    }
+    else
+    {
+        std::cout << "There are not enough for " << requestedSeats << " seats with " << remainingSeats << " free out of 50 seats\n";
+        return;
     }
 }
 
 int main()
 {
-    CheckSeatAmt(GetRequestedSeats(), GetRemainingSeats());
+    displayPrompt();
 
     return 0;
 }
