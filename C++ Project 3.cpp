@@ -3,6 +3,7 @@
 short userInput;
 short question;
 
+//simple validation
 short getRequestedSeats()
 {
     std::cout << "Welcome to XTC Bus Company\n";
@@ -19,6 +20,8 @@ short getRequestedSeats()
     return userInput;
 }
 
+//scaling and shifting
+//time function returning time_t object type
 short getRemainingSeats()
 {
     srand(time(NULL));
@@ -28,9 +31,9 @@ short getRemainingSeats()
     return busSeats;
 }
 
-bool canReserveSeats(short amount_1, short amount_2)
+bool canReserveSeats(short user_amount, short bus_amount)
 {
-    if (amount_1 < amount_2)
+    if (user_amount < bus_amount)
     {
         return true;
     }
