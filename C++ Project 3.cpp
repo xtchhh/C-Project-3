@@ -1,20 +1,23 @@
 #include <iostream>
+#include <cstdlib>
 
-short userInput;
+short userInput = 1;
 short question;
+const short totalBusSeats = 50;
 
 //simple validation
+//second stream input object reassigns userInput
 short getRequestedSeats()
 {
-    std::cout << "Welcome to XTC Bus Company\n";
-    std::cout << "How many seats would you like to reserve?\n";
+    std::cout << "\nWelcome to the XTC Bus Company!\n";
+    std::cout << "How many seats would you like to reserve? (Enter 0 to terminate this session)\n";
 
     std::cin >> userInput;
 
-    while (userInput <= 0)
+    if (userInput <= 0)
     {
-        std::cout << "Please prove a valid amount, how many seats would you like to reserve?\n";
-        std::cin >> userInput;
+        std::cout << "Goodbye!";
+        std::exit(0);
     }
 
     return userInput;
@@ -26,14 +29,14 @@ short getRemainingSeats()
 {
     srand(time(NULL));
 
-    const short busSeats = 1 + rand() % 51;
+    short remainingBusSeats = 1 + rand() % totalBusSeats + 1;
 
-    return busSeats;
+    return remainingBusSeats;
 }
 
-bool canReserveSeats(short user_amount, short bus_amount)
+bool canReserveSeats(short request_amount, short bus_amount)
 {
-    if (user_amount < bus_amount)
+    if (request_amount < bus_amount)
     {
         return true;
     }
@@ -50,19 +53,22 @@ void displayPrompt()
 
     if (canReserveSeats(requestedSeats, remainingSeats))
     {
-        std::cout << "There are enough for " << requestedSeats << " seats with " << remainingSeats << " free out of 50 seats\n";
+        std::cout << "\nThere are enough for " << requestedSeats << " seats with " << remainingSeats << " free out of " << totalBusSeats << " seats\n";
         return;
     }
     else
     {
-        std::cout << "There are not enough for " << requestedSeats << " seats with " << remainingSeats << " free out of 50 seats\n";
+        std::cout << "\nThere are not enough for " << requestedSeats << " seats with " << remainingSeats << " free out of " << totalBusSeats << " seats\n";
         return;
     }
 }
 
 int main()
 {
-    displayPrompt();
+    while (userInput > 0)
+    {
+        displayPrompt();
+    }
 
     return 0;
 }
