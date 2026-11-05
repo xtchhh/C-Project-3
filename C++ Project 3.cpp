@@ -2,11 +2,10 @@
 #include <cstdlib>
 
 short userInput = 1;
-short question;
+short remainingTotal;
 const short totalBusSeats = 50;
 
 //simple validation
-//second stream input object reassigns userInput
 short getRequestedSeats()
 {
     std::cout << "\nWelcome to the XTC Bus Company!\n";
@@ -14,29 +13,14 @@ short getRequestedSeats()
 
     std::cin >> userInput;
 
-    if (userInput <= 0)
-    {
-        std::cout << "Goodbye!";
-        std::exit(0);
-    }
+    remainingTotal += userInput;
 
-    return userInput;
+    return remainingTotal;
 }
 
-//scaling and shifting
-//time function returning time_t object type
-short getRemainingSeats()
+bool canReserveSeats(short request_total_amount, short bus_amount)
 {
-    srand(time(NULL));
-
-    short remainingBusSeats = 1 + rand() % totalBusSeats + 1;
-
-    return remainingBusSeats;
-}
-
-bool canReserveSeats(short request_amount, short bus_amount)
-{
-    if (request_amount < bus_amount)
+    if (request_total_amount < bus_amount)
     {
         return true;
     }
@@ -48,27 +32,31 @@ bool canReserveSeats(short request_amount, short bus_amount)
 
 void displayPrompt()
 {
-    auto requestedSeats = getRequestedSeats();
-    auto remainingSeats = getRemainingSeats();
+    while (userInput > 0)
+    {
+        auto requestedSeats = getRequestedSeats();
 
-    if (canReserveSeats(requestedSeats, remainingSeats))
-    {
-        std::cout << "\nThere are enough for " << requestedSeats << " seats with " << remainingSeats << " free out of " << totalBusSeats << " seats\n";
-        return;
+        if (userInput <= 0)
+        {
+            std::cout << "Goodbye!";
+            return;
+        }
+
+        if (canReserveSeats(requestedSeats, totalBusSeats))
+        {
+            std::cout << "\nThere are enough seats for you to reserve, there are " << totalBusSeats - requestedSeats << " seats left. Thank you.\n";
+        }
+        else
+        {
+            std::cout << "\nThere are not enough seats for you to reserve, there are " << totalBusSeats - requestedSeats << " seats left. Thank you\n";
+        }
     }
-    else
-    {
-        std::cout << "\nThere are not enough for " << requestedSeats << " seats with " << remainingSeats << " free out of " << totalBusSeats << " seats\n";
-        return;
-    }
+    return;
 }
 
 int main()
 {
-    while (userInput > 0)
-    {
-        displayPrompt();
-    }
+    displayPrompt();
 
     return 0;
 }
